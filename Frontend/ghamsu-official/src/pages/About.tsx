@@ -2,7 +2,7 @@ import React from "react";
 import Hero from "../components/Hero";
 import gLogo from "../assets/ghamsulogo.png";
 import historyImg from "../assets/hero-bg.jpg";
-import missionImg from "../assets/hero-bg.jpg";
+//import missionImg from "../assets/hero-bg.jpg";
 
 const About: React.FC = () => {
   return (

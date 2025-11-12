@@ -27,7 +27,7 @@ const About: React.FC = () => {
           <img
             src={gLogo}
             alt="GHAMSU Logo"
-            className="w-32 h-32 rounded-full object-contain shadow-lg border-4 border-sky-900"
+            className="w-52 h-52 rounded-full object-contain shadow-lg border-4 border-white"
           />
         </div>
       </section>
@@ -139,7 +139,7 @@ const About: React.FC = () => {
           <img
             src={gLogo}
             alt="GHAMSU Logo"
-            className="w-64 mx-auto rounded-full shadow-lg border-4 border-sky-900"
+            className="w-64 mx-auto rounded-full shadow-lg border-4 border-white"
           />
         </div>
       </section>

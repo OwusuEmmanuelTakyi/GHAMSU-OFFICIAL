@@ -73,7 +73,7 @@ const Footer = () => {
             </li>
             <li className="flex items-start gap-3">
               <Mail size={18} className="text-sky-400 mt-1 flex-shrink-0" />
-              <span>info@ghamsuofficial.org</span>
+              <span>ghamsuofficial@gmail.com</span>
             </li>
           </ul>
         </div>
@@ -116,6 +116,18 @@ const Footer = () => {
               href="#"
               className="p-2 rounded-full bg-sky-800 hover:bg-sky-700 transition-all duration-300"
             >
+              <Instagram size={20} />
+            </a>
+            <a
+              href="#"
+              className="p-2 rounded-full bg-sky-800 hover:bg-sky-700 transition-all duration-300"
+            >
+              <Instagram size={20} />
+            </a>
+            <a
+              href="#"
+              className="p-2 rounded-full bg-sky-800 hover:bg-sky-700 transition-all duration-300"
+            >
               <Youtube size={20} />
             </a>
           </div>
@@ -127,8 +139,8 @@ const Footer = () => {
         <p>
           © {new Date().getFullYear()} GHAMSU Official. All Rights Reserved.
         </p>
-        <p className="mt-2 text-gray-500">
-          Empowering Students • Sharing Christ • Building Leaders
+        <p className="mt-2 text-white-500">
+          Powered by the PUBLICATION AND COMMUNICATIONS BOARD (PCB)
         </p>
       </div>
     </footer>

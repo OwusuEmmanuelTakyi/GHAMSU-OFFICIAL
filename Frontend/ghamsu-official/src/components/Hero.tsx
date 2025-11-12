@@ -60,7 +60,7 @@ const Hero: React.FC = () => {
     <section
       className="
         relative 
-        h-[70vh] 
+        h-[55vh] 
         sm:h-[80vh] 
         md:h-[90vh] 
         lg:h-screen 

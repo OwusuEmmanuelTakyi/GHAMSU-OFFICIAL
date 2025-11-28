@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { PortableText } from "@portabletext/react";
 
 interface EventItem {
+  _id: string;
   title: string;
   date: string;
   time?: string;
@@ -14,6 +15,7 @@ interface EventItem {
 }
 
 interface BlogItem {
+  _id: string;
   title: string;
   date: string;
   author: string;
@@ -34,21 +36,12 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [eventsData, blogsData] = await Promise.all([
+        const [eventsData, blogsData]: [EventItem[], BlogItem[]] = await Promise.all([
           client.fetch(`*[_type == "event"] | order(date asc)[0...4]{
-            title,
-            date,
-            time,
-            venue,
-            description,
-            image
+            _id, title, date, time, venue, description, image
           }`),
           client.fetch(`*[_type == "blog"] | order(date desc)[0...4]{
-            title,
-            date,
-            author,
-            image,
-            content
+            _id, title, date, author, image, content
           }`),
         ]);
 
@@ -73,19 +66,18 @@ export default function Home() {
   }
 
   return (
-    <div className="w-full overflow-hidden bg-white">
+    <div className="w-full overflow-hidden bg-white text-gray-900">
       {/* 🕊️ HERO SECTION */}
       <Hero />
 
       {/* 🙏 ABOUT SECTION */}
-      <section className="py-20 sm:py-24 bg-gray-50 text-center px-6 md:px-12">
-        <h2 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-6 leading-tight">
+      <section className="py-20 sm:py-24 bg-gradient-to-b from-gray-50 to-white text-center px-6 md:px-12">
+        <h2 className="text-4xl sm:text-5xl font-bold text-sky-900 mb-6 leading-tight">
           A Family United in Faith & Purpose ✨
         </h2>
         <p className="text-gray-600 max-w-3xl mx-auto text-lg mb-10">
-          Welcome to GHAMSU — a vibrant fellowship of believers dedicated to
-          spreading the gospel, empowering students, and walking in Christ’s
-          purpose.
+          Welcome to GHAMSU — a vibrant fellowship of believers dedicated to spreading the gospel, 
+          empowering students, and walking in Christ’s purpose.
         </p>
 
         <Link
@@ -96,21 +88,40 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* 📅 UPCOMING EVENTS SECTION (New Sky Theme) */}
-      <section className="py-10 sm:py-16 bg-sky-900 text-center px-6 md:px-12 text-white">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-yellow-400">
+      {/* 🌍 GHAMSU MISSION SECTION */}
+      <section className="py-20 bg-gradient-to-r from-sky-900 via-sky-800 to-sky-900 text-center text-white px-6 md:px-12">
+        <h2 className="text-4xl font-bold mb-6 text-yellow-400">
+          Know More About GHAMSU Missions 🌍
+        </h2>
+        <p className="max-w-3xl mx-auto text-lg leading-relaxed text-gray-200 mb-10">
+          GHAMSU is more than just a fellowship — it’s a divine movement. 
+          We are committed to reaching students across campuses with the light of Christ, 
+          building leaders grounded in faith, and transforming communities through the gospel. 
+          Join our mission to bring hope, unity, and transformation wherever we go.
+        </p>
+        <Link
+          to="/missions"
+          className="inline-block px-8 py-3 bg-yellow-400 text-sky-900 font-semibold rounded-full hover:bg-yellow-500 transition-all duration-300"
+        >
+          Discover Our Mission
+        </Link>
+      </section>
+
+      {/* 📅 UPCOMING EVENTS */}
+      <section className="py-16 bg-sky-50 text-center px-6 md:px-12">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-sky-900">
           Upcoming Events 📅
         </h2>
 
         {events.length === 0 ? (
-          <p className="text-gray-300">No upcoming events at the moment.</p>
+          <p className="text-gray-500">No upcoming events at the moment.</p>
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
-              {events.map((event, i) => (
+              {events.map((event) => (
                 <div
-                  key={i}
-                  className="bg-sky-800 rounded-2xl shadow-md overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+                  key={event._id}
+                  className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
                 >
                   {event.image && (
                     <img
@@ -121,20 +132,20 @@ export default function Home() {
                     />
                   )}
                   <div className="p-6 text-left">
-                    <h3 className="text-xl font-semibold mb-2 text-white">
+                    <h3 className="text-xl font-semibold mb-2 text-sky-900">
                       {event.title}
                     </h3>
-                    <p className="text-yellow-400 text-sm mb-2">
+                    <p className="text-yellow-600 text-sm mb-2">
                       {new Date(event.date).toLocaleDateString()}{" "}
                       {event.time && `• ${event.time}`}
                     </p>
-                    <p className="text-gray-300 text-sm mb-3">📍 {event.venue}</p>
-                    <p className="text-gray-300 text-sm mb-4">
+                    <p className="text-gray-500 text-sm mb-3">📍 {event.venue}</p>
+                    <p className="text-gray-600 text-sm mb-4">
                       {truncate(event.description, 100)}
                     </p>
                     <Link
                       to="/events"
-                      className="text-yellow-400 font-medium hover:underline"
+                      className="text-sky-700 font-medium hover:underline"
                     >
                       Read More →
                     </Link>
@@ -146,7 +157,7 @@ export default function Home() {
             <div className="mt-10">
               <Link
                 to="/events"
-                className="inline-block px-8 py-3 bg-yellow-400 text-black font-semibold rounded-full hover:bg-yellow-500 transition-all duration-300"
+                className="inline-block px-8 py-3 bg-sky-900 text-yellow-400 font-semibold rounded-full hover:bg-sky-800 transition-all duration-300"
               >
                 See More Events
               </Link>
@@ -155,9 +166,35 @@ export default function Home() {
         )}
       </section>
 
-      {/* ✍️ BLOG SECTION */}
-      <section className="py-20 sm:py-24 bg-gray-50 text-center px-6 md:px-12">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10">
+      {/* 🎥 YOUTUBE VIDEOS SECTION */}
+      <section className="py-20 bg-gradient-to-b from-white to-gray-100 text-center px-6 md:px-12">
+        <h2 className="text-3xl sm:text-4xl font-bold text-sky-900 mb-10">
+          Watch & Be Inspired 🎥
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* ✅ Your Real GHAMSU YouTube Video */}
+          <iframe
+            className="w-full aspect-video rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
+            src="https://www.youtube.com/embed/oer4Pr0ZOOA?si=sEacmxl0zx67qXqD"
+            title="GHAMSU Official Video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          ></iframe>
+
+          {/* ✅ Placeholder for second GHAMSU video */}
+          <iframe
+            className="w-full aspect-video rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
+            src="https://www.youtube.com/embed/cjqy3_mcdiI?si=h9_DRjBNLXgdUKxD"
+            title="GHAMSU Video 2"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          ></iframe>
+        </div>
+      </section>
+
+      {/* ✍️ BLOGS */}
+      <section className="py-20 bg-white text-center px-6 md:px-12">
+        <h2 className="text-3xl sm:text-4xl font-bold text-sky-900 mb-10">
           Latest Blogs 📰
         </h2>
 
@@ -166,10 +203,10 @@ export default function Home() {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
-              {blogs.map((blog, i) => (
+              {blogs.map((blog) => (
                 <div
-                  key={i}
-                  className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
+                  key={blog._id}
+                  className="bg-gray-50 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
                 >
                   {blog.image && (
                     <img
@@ -180,14 +217,13 @@ export default function Home() {
                     />
                   )}
                   <div className="p-6 text-left">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    <h3 className="text-xl font-semibold text-sky-900 mb-2">
                       {blog.title}
                     </h3>
                     <p className="text-gray-500 text-sm mb-3">
                       {new Date(blog.date).toLocaleDateString()} • By{" "}
                       {blog.author}
                     </p>
-
                     <div className="text-gray-600 text-sm mb-4 line-clamp-4">
                       {Array.isArray(blog.content) ? (
                         <PortableText
@@ -226,7 +262,7 @@ export default function Home() {
             <div className="mt-10">
               <Link
                 to="/blog"
-                className="inline-block px-8 py-3 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-600 transition-all duration-300"
+                className="inline-block px-8 py-3 bg-sky-900 text-yellow-400 font-semibold rounded-full hover:bg-sky-800 transition-all duration-300"
               >
                 See More Blogs
               </Link>
@@ -235,40 +271,12 @@ export default function Home() {
         )}
       </section>
 
-      {/* 📸 GALLERY SECTION */}
-      <section className="py-20 sm:py-24 bg-white text-center px-6 md:px-12">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10">
-          Moments of Fellowship 📸
+      {/* 📨 NEWSLETTER */}
+      <section className="py-20 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400 text-center px-6 md:px-12 text-sky-900">
+        <h2 className="text-3xl font-bold mb-4">
+          Stay Connected with GHAMSU 💌
         </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {["/assets/gallery1.jpg", "/assets/gallery2.jpg", "/assets/gallery3.jpg"].map(
-            (img, i) => (
-              <img
-                key={i}
-                src={img}
-                alt="Gallery"
-                loading="lazy"
-                className="w-full h-64 object-cover rounded-xl hover:scale-105 transition-transform duration-300"
-              />
-            )
-          )}
-        </div>
-
-        <Link
-          to="/gallery"
-          className="mt-10 inline-block px-6 py-3 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-600 transition-all duration-300"
-        >
-          View Full Gallery
-        </Link>
-      </section>
-
-      {/* 📨 NEWSLETTER SECTION */}
-      <section className="py-20 bg-gray-50 text-center px-6 md:px-12">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">
-          Stay Connected with GHAMSU
-        </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="text-sky-900 mb-6">
           Join our mailing list to receive updates, devotionals, and event alerts.
         </p>
 
@@ -276,9 +284,9 @@ export default function Home() {
           <input
             type="email"
             placeholder="Enter your email"
-            className="w-full px-4 py-3 rounded-l-full border border-gray-300 focus:outline-none"
+            className="w-full px-4 py-3 rounded-l-full border border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-600"
           />
-          <button className="px-6 py-3 bg-yellow-500 text-bg-sky-900 font-semibold rounded-r-full hover:bg-yellow-600 transition-all duration-300">
+          <button className="px-6 py-3 bg-sky-900 text-yellow-400 font-semibold rounded-r-full hover:bg-sky-800 transition-all duration-300">
             Subscribe
           </button>
         </div>

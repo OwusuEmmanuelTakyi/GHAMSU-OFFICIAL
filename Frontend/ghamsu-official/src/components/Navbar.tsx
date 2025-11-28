@@ -57,7 +57,7 @@ const Navbar = () => {
           onClick={toggleMenu}
           className="md:hidden text-white focus:outline-none"
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
